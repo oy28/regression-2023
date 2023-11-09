@@ -43,17 +43,12 @@ def main():
     n_test = 101
     noise_ratio =0.05
     score_eps=1e-8
-    #多項式フィッティングの条件
-    sigma_y=0.05
+    #回帰分析の条件
     regressor_name ='poly'
     regressor_kwargs =dict(
         poly=dict(
             d=3
         ),
-        gp=dict(
-            sigma=0.05
-        )
-        
     )
     regressor=build_regressor(regressor_name, regressor_kwargs)
 
@@ -77,7 +72,6 @@ def main():
         xy=(x,y),xy_sample=(x_sample,y_sample),xy_pred=(x,y_pred),
         title=r'$y = \sin (\pi x)$'
     )
-    
 
 if __name__ == '__main__':
     main()
