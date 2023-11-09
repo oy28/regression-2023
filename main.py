@@ -2,6 +2,8 @@ from matplotlib.figure import Figure
 import japanize_matplotlib as _
 import numpy as np
 
+from regressor import build_regressor
+
 def calculate_score(y, y_pred, score_eps):
     norm_diff = np.sum(np.abs(y-y_pred))
     norm_y = np.sum(np.abs(y))
@@ -32,22 +34,7 @@ def save_graph(
         ax.plot(x_pred, y_pred, color='orange', label='回帰関数 $\hat{f}$')
     ax.legend()
     fig.savefig(filename)
-    
-class PolyRegressor:
-    def __init__(self,d):
-        self.d =d
-        self.p =np.arange(d+1)[np.newaxis, :]
-    
-    def fit(self,x_sample,y_sample):
-        X_sample = x_sample[:, np.newaxis] ** self.p
-        sample_XX_inv = np.linalg.inv(X_sample.T @ X_sample)
-        self.a = sample_XX_inv @ X_sample.T @ y_sample[:, np.newaxis]
-    
-    def predict(self,x):
-        X = x[:,np.newaxis] ** self.p
-        y_pred=np.squeeze(X @ self.a)
-        return y_pred
-    
+
 def main():
     #実験条件
     x_min=-1
@@ -57,8 +44,18 @@ def main():
     noise_ratio =0.05
     score_eps=1e-8
     #多項式フィッティングの条件
-    d=3
-    regressor=PolyRegressor(d)
+    sigma_y=0.05
+    regressor_name ='poly'
+    regressor_kwargs =dict(
+        poly=dict(
+            d=3
+        ),
+        gp=dict(
+            sigma=0.05
+        )
+        
+    )
+    regressor=build_regressor(regressor_name, regressor_kwargs)
 
     #変数の準備
     x = np.linspace(x_min, x_max, n_test)
