@@ -64,10 +64,9 @@ def main():
     x_sample = np.random.uniform(x_min, x_max, (n_train, ))
     noise_sample = np.random.normal(0, y_range*noise_ratio, (n_train, ))
     y_sample = np.sin(np.pi * x_sample) + noise_sample
-    # 多項式フィッティング
+    # 回帰分析
     ## 学習サンプルから係数を求める
     regressor.fit(x_sample,y_sample)
-    
     ##求めた係数を用いてyの値を予測
     y_pred=regressor.predict(x)
     # 評価指標の算出
