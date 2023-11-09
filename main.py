@@ -16,9 +16,15 @@ def main():
     sample_X = sample_x[:, np.newaxis] ** p[np.newaxis, :]
     sample_XX_inv = np.linalg.inv(sample_X.T @ sample_X)
     a = sample_XX_inv @ sample_X.T @ sample_y[:, np.newaxis]
-    ##求めた係数を用いてyの値を表示
+    ##求めた係数を用いてyの値を予測
     X = x[:,np.newaxis] ** p[np.newaxis, :]
     y_pred = np.squeeze(X @ a)
+    # 評価指標の算出
+    norm_diff = np.sum(np.abs(y-y_pred))
+    norm_y = np.sum(np.abs(y))
+    eps = 1e-8
+    score = norm_diff/(norm_y + eps)
+    print(f'{score=:.3f}')
     #グラフの表示
     fig = Figure()
     ax = fig.add_subplot(1, 1, 1, xlabel='$x$', ylabel='$y$')
