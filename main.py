@@ -44,14 +44,20 @@ def main():
     noise_ratio =0.05
     score_eps=1e-8
     #回帰分析の条件
-    regressor_name ='gp'
-    regressor_kwargs =dict(
+    regressor_name ='nn'
+    regressor_kwargs = dict(
         poly=dict(
             d=3
         ),
         gp=dict(
             sigma_x=0.2,
             sigma_y=0.1,
+        ),
+        nn=dict(
+            epoch=100
+            n_layer=2
+            center=20
+            lerning_rate=0.1
         ),
     )
     regressor=build_regressor(regressor_name, regressor_kwargs)
